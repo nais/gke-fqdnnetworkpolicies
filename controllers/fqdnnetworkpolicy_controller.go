@@ -40,6 +40,12 @@ type FQDNNetworkPolicyReconciler struct {
 	client.Client
 	Log    logr.Logger
 	Scheme *runtime.Scheme
+	Config Config
+}
+
+type Config struct {
+	SkipAAAA bool
+	NextSync int
 }
 
 var (
@@ -297,7 +303,7 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyIngressRules(ctx context.C
 	var nextSync uint32
 	// Highest value possible for the resync time on the FQDNNetworkPolicy
 	// TODO what should this be?
-	nextSync = 30
+	nextSync = uint32(r.Config.NextSync)
 
 	// TODO what do we do if nothing resolves, or if the list is empty?
 	// What's the behavior of NetworkPolicies in that case?
@@ -418,7 +424,7 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyEgressRules(ctx context.Co
 	var nextSync uint32
 	// Highest value possible for the resync time on the FQDNNetworkPolicy
 	// TODO what should this be?
-	nextSync = 30
+	nextSync = uint32(r.Config.NextSync)
 
 	// TODO what do we do if nothing resolves, or if the list is empty?
 	// What's the behavior of NetworkPolicies in that case?
@@ -443,15 +449,15 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyEgressRules(ctx context.Co
 				// by default only if options rotate is set in resolv.conf
 				// they are rotated. Otherwise the first is used, after a (5s)
 				// timeout the next etc. So this is not too bad for now.
-				r, _, err := c.Exchange(m, "["+ns[0]+"]:53")
+				e, _, err := c.Exchange(m, "["+ns[0]+"]:53")
 				if err != nil {
 					log.Error(err, "unable to resolve "+f)
 					continue
 				}
-				if len(r.Answer) == 0 {
+				if len(e.Answer) == 0 {
 					log.V(1).Info("could not find A record for " + f)
 				}
-				for _, ans := range r.Answer {
+				for _, ans := range e.Answer {
 					if t, ok := ans.(*dns.A); ok {
 						// Adding a peer per answer
 						peers = append(peers, networking.NetworkPolicyPeer{
@@ -467,7 +473,7 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyEgressRules(ctx context.Co
 					}
 				}
 				// check for AAAA lookups skip annotation
-				if fqdnNetworkPolicy.Annotations[aaaaLookupsAnnotation] == "skip" {
+				if fqdnNetworkPolicy.Annotations[aaaaLookupsAnnotation] == "skip" || r.Config.SkipAAAA {
 					log.Info("FQDNNetworkPolicy has AAAA lookups policy set to skip, not resolving AAAA records")
 				} else {
 					// AAAA records

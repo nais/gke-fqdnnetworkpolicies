@@ -52,11 +52,16 @@ func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
 	var probeAddr string
+	var skipAAAA bool
+	var nextSync int
 	flag.StringVar(&metricsAddr, "metrics-bind-address", ":8080", "The address the metric endpoint binds to.")
 	flag.StringVar(&probeAddr, "health-probe-bind-address", ":8081", "The address the probe endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "leader-elect", false,
 		"Enable leader election for controller manager. "+
 			"Enabling this will ensure there is only one active controller manager.")
+	flag.BoolVar(&skipAAAA, "skip-aaaa", false, "Skip AAAA lookups")
+	flag.IntVar(&nextSync, "next-sync", 60, "Highest value possible for the re-sync time on the FQDNNetworkPolicy, respecting the DNS TTL.")
+
 	opts := zap.Options{
 		Development: true,
 	}
@@ -89,10 +94,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	cfg := controllers.Config{
+		SkipAAAA: skipAAAA,
+		NextSync: nextSync,
+	}
+
 	if err = (&controllers.FQDNNetworkPolicyReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("FQDNNetworkPolicy"),
 		Scheme: mgr.GetScheme(),
+		Config: cfg,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "FQDNNetworkPolicy")
 		os.Exit(1)
