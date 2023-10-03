@@ -44,8 +44,8 @@ type FQDNNetworkPolicyReconciler struct {
 }
 
 type Config struct {
-	SkipAAAA bool
-	NextSync int
+	SkipAAAA       bool
+	NextSyncPeriod int
 }
 
 var (
@@ -303,7 +303,7 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyIngressRules(ctx context.C
 	var nextSync uint32
 	// Highest value possible for the resync time on the FQDNNetworkPolicy
 	// TODO what should this be?
-	nextSync = uint32(r.Config.NextSync)
+	nextSync = uint32(r.Config.NextSyncPeriod)
 
 	// TODO what do we do if nothing resolves, or if the list is empty?
 	// What's the behavior of NetworkPolicies in that case?
@@ -424,7 +424,7 @@ func (r *FQDNNetworkPolicyReconciler) getNetworkPolicyEgressRules(ctx context.Co
 	var nextSync uint32
 	// Highest value possible for the resync time on the FQDNNetworkPolicy
 	// TODO what should this be?
-	nextSync = uint32(r.Config.NextSync)
+	nextSync = uint32(r.Config.NextSyncPeriod)
 
 	// TODO what do we do if nothing resolves, or if the list is empty?
 	// What's the behavior of NetworkPolicies in that case?
