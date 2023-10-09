@@ -45,6 +45,7 @@ jobs:
           google_service_account: gh-${{ env.NAME }}
           workload_identity_provider: ${{ secrets.NAIS_IO_WORKLOAD_IDENTITY_PROVIDER }}
           push: true
+          push_ghcr: true
 
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -79,4 +80,3 @@ jobs:
         with:
           chart: ${{ env.FEATURE_REPOSITORY }}/${{ env.NAME }}
           version: ${{ needs.build_and_push.outputs.version }}
-          feature_name: ${{ env.NAME }}

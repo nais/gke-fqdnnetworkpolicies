@@ -7,6 +7,8 @@ Therefore, NAIS has opted to take control of the project and adapt it to suit ot
 By managing this forked repository, NAIS ensures that they can tailor the project to align with objectives and operational requirements effectively. 
 This proactive approach allows NAIS to address needs and maintain control over the project's development, rather than waiting for a solution that may not be readily available or suitable.
 
+A public image is available at gchr.io.
+
 # 🚨 Warning 🚨
 
 This project is now archived. There is a new official preview feature for FQDN Network Policies built into Google
