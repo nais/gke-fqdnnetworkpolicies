@@ -1,5 +1,8 @@
 name: Build and deploy
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '*.md'
 
 env:
   NAME: fqdn-policy
