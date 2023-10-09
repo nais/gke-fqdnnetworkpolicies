@@ -1,3 +1,12 @@
+# Maintained by NAIS
+
+NAIS, is currently actively managing a fork of the project found at the following GitHub repository.
+The primary reason for maintaining this forked repository is that the alternative solution provided by Google Cloud Platform has not yet been officially priced or made available. 
+Therefore, NAIS has opted to take control of the project and adapt it to suit other requirements and needs.
+
+By managing this forked repository, NAIS ensures that they can tailor the project to align with objectives and operational requirements effectively. 
+This proactive approach allows NAIS to address needs and maintain control over the project's development, rather than waiting for a solution that may not be readily available or suitable.
+
 # 🚨 Warning 🚨
 
 This project is now archived. There is a new official preview feature for FQDN Network Policies built into Google
