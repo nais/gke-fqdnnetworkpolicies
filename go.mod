@@ -6,7 +6,7 @@ require (
 	github.com/go-logr/logr v1.4.1
 	github.com/miekg/dns v1.1.57
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.30.0
+	github.com/onsi/gomega v1.31.1
 	golang.org/x/net v0.20.0
 	k8s.io/api v0.29.0
 	k8s.io/apimachinery v0.29.0
