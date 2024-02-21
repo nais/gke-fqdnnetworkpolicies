@@ -6,6 +6,9 @@ metadata:
     control-plane: controller-manager
     {{- include "fqdn-policy.labels" . | nindent 4 }}
   name: fqdnnetworkpolicies-controller-manager
+  {{- if .Values.deploymentAnnotations }}
+  annotations: {{- toYaml .Values.deploymentAnnotations | nindent 4 }}
+  {{- end }}
 spec:
   replicas: 1
   selector:

@@ -4,5 +4,5 @@ sources:
   - https://github.com/nais/fqdn-policy/tree/main/charts/
 description: A Helm chart containing a fork of the GoogleCloudPlatform/gke-fqdnnetworkpolicies-golang operator
 type: application
-version: 0.0.5
+version: 0.0.6
 appVersion: "0.4.0"
