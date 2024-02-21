@@ -131,7 +131,7 @@ current implementation:
 -  The use of
    [NodeLocal DNSCache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
    is recommend to improve stability of records and reduce the number of DNS
-   requests sent outside of the cluster 
+   requests sent outside of the cluster.
 -  For allowing traffic to Google APIs on Google Cloud, use a
    [Private Google Access](https://cloud.google.com/vpc/docs/configure-private-google-access)
    option instead and
