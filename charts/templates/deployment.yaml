@@ -10,7 +10,7 @@ metadata:
   annotations: {{- toYaml .Values.deploymentAnnotations | nindent 4 }}
   {{- end }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       control-plane: controller-manager
