@@ -13,7 +13,7 @@ SBOM is generated with [cyclonedx](https://github.com/CycloneDX), image is signe
 
 You can validate the image attestations by executing the following commands:
 
-```
+```shell
 echo IDENTITY=https://github.com/nais/fqdn-policy/.github/workflows/main.yaml@refs/heads/main
 echo ISSUER=https://token.actions.githubusercontent.com
 cosign verify-attestation --type=cyclonedx --certificate-oidc-issuer=$ISSUER --certificate-identity=$IDENTITY ghcr.io/nais/fqdn-policy@sha256:xxx
@@ -41,7 +41,7 @@ object.
 A FQDNNetworkPolicy looks a lot like a NetworkPolicy, but you can configure hostnames
 in the "to" field:
 
-```
+```yaml
 apiVersion: networking.gke.io/v1alpha3
 kind: FQDNNetworkPolicy
 metadata:
@@ -149,13 +149,13 @@ Follow these instructions to install the FQDNNetworkPolicies controller in your 
 
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/).
 
-   ```
+   ```shell
    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
    ```
 
 1. Install the FQDNNetworkPolicy controller.
 
-   ```
+   ```shell
    export VERSION=$(curl https://storage.googleapis.com/fqdnnetworkpolicies-manifests/latest)
    kubectl apply -f https://storage.googleapis.com/fqdnnetworkpolicies-manifests/${VERSION}.yaml
    ```
@@ -178,7 +178,7 @@ To uninstall the FQDNNetworkPolicies controller from your GKE cluster, delete th
 and then remove the resources.
 Replace `YOUR_VERSION` by the version you are using.
 
-```
+```shell
 export VERSION=YOUR_VERSION
 kubectl delete fqdnnetworkpolicies.networking.gke.io -A --all
 kubectl delete -f https://storage.googleapis.com/fqdnnetworkpolicies-manifests/${VERSION}.yaml
@@ -201,25 +201,25 @@ You need the following tools installed on your development workstation.
 
 1. Create your Kind cluster.
 
-    ```
+    ```shell
     make kind-cluster
     ```
 
 1. Deploy cert-manager (necessary for the webhooks).
 
-   ```
+   ```shell
    make deploy-cert-manager
    ```
 
 1. Build & deploy the controller. This will delete any previous controller pod running, even if it has the same tag.
 
-   ```
+   ```shell
    make force-deploy-manager
    ```
 
 1. Observe the controller logs and apply valid and invalid resources.
 
-   ```
+   ```shell
    # In one terminal
    make follow-manager-logs
    # In another terminal
@@ -235,6 +235,6 @@ You need the following tools installed on your development workstation.
 1. Push the tag to GitHub.
 1. Create a release in GitHub.
 1. If you want that release to be the new default one, run:
-   ```
+   ```shell
    VERSION=$YOUR_TAG make latest
    ```
